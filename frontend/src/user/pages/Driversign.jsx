@@ -13,18 +13,16 @@ function DriverSignup() {
     const onFormSubmit =async e => {
   
       e.preventDefault();
-      var email = document.getElementById('em'). value;
-      var password = document.getElementById('pass').value;
+      var li = document.getElementById('em'). value;
       var name =document.getElementById('name').value;
-      console.log(email);
+
       try {
         const responseData = await sendRequest(
           'http://localhost:5000/api/users/signupDriver',
           'POST',
           JSON.stringify({
             name: name,
-             email: email,
-             password:password
+             li: li
           }),
           {
             'Content-Type': 'application/json'
@@ -32,10 +30,10 @@ function DriverSignup() {
         );
   
         //auth.login(responseData.user.email,responseData.token);
-        document.getElementById('em'). value="";
-        document.getElementById('pass'). value="";
-        document.getElementById('name'). value="";
-        history('/');
+        //document.getElementById('em'). value="";
+        //document.getElementById('pass'). value="";
+        //document.getElementById('name'). value="";
+        //history('/');
       } catch (err) {}
    
     }
@@ -60,17 +58,14 @@ function DriverSignup() {
         </Form.Text>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" id="em" placeholder="Enter email" />
+        <Form.Label>li</Form.Label>
+        <Form.Control type="text" id="em" placeholder="Enter email" />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
         </Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" id="pass" placeholder="Password" />
-      </Form.Group>
+      
       
       <Button variant="primary" type="submit">
         Submit

@@ -10,6 +10,8 @@ import List from '../components/List';
 import {AuthContext} from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import { useNavigate } from 'react-router-dom';
+import Accordion from 'react-bootstrap/Accordion';
+
 function Search() {
 
     const auth = useContext(AuthContext);
@@ -41,26 +43,38 @@ function Search() {
 
   return (
     <React.Fragment>
-    {!loadedRecipes &&( <Card>
-        <Card.Body>
-        <Card.Title>Search</Card.Title>
-        <Card.Text>
-    <Form  onSubmit={onFormSubmit}>
+    {!loadedRecipes &&( 
+    <div className="BGGradeAllergy">
+  <div className="TopMarginAllergy"></div>
 
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>name</Form.Label>
-        <Form.Control type="text" id="name" placeholder="Enter email" />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-    </Card.Text>
-    </Card.Body>
-    </Card>)}
+  <div className="box" id="heading">
+      <h1 className="Heading"> Search</h1>{" "}
+  </div>
+  <Accordion className="container" bg-dark>
+      <Form className="form-signin" onSubmit={onFormSubmit}>
+          <Form.Group controlId="formGroupheart">
+              <Form.Label className="AllergyFormTextLabel">
+                  Search
+              </Form.Label>
+              <Form.Control
+                  type="text"
+                  id="name"
+                  placeholder="search"
+                  className="AllergyFormText"
+              />
+          </Form.Group>
+          
+          <br />
+          <Button
+              variant="primary"
+              type="submit"
+              className="AllergyButton"
+          >
+              Submit
+          </Button>
+      </Form>
+  </Accordion>
+  </div>)}
     {loadedRecipes && (<div>
             <div
                 style={{

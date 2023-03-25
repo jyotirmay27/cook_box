@@ -67,7 +67,7 @@ const Doctors = () => {
                     sticky="top"
                     >
                         <Card.Body>
-                            <List/>
+                           Counsellors
                         </Card.Body>
                     </Card>
                     </div>

@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const Driver= require('../models/Driver');
 const Doctor= require('../models/Doctor');
+const Motivation= require('../models/Motivation');
 
 const signup =async  (req, res, next) => {
     const errors = validationResult(req); // this will validate the checks we put on user router file for name email and password.
@@ -207,6 +208,22 @@ const signup =async  (req, res, next) => {
  
     res.json({ docs: recipes.map(recipe => recipe.toObject({ getters: true })) });
   };
+  const getAllMotivation = async(req,res,next) =>{
+    // const userId=req.params.uid;  // this will bind the user Id from url to a constant
+    let recipes;
+    try {
+      recipes = await Motivation.find({});
+    } catch (err) {
+      const error = new HttpError(
+        'Fetching users failed, please try again later.',
+        500
+      );
+      return next(error);
+    }
+    console.log(recipes);
+ 
+    res.json({ videos: recipes.map(recipe => recipe.toObject({ getters: true })) });
+  };
  const getBySearch = async(req,res,next) =>{
     // const userId=req.params.uid;
       // this will bind the user Id from url to a constant
@@ -244,46 +261,44 @@ const signup =async  (req, res, next) => {
   };
 
   const createDriver = async (req, res, next) => {
-    const errors = validationResult(req); // this will validate the checks we put on user router file for name email and password.
-    if (!errors.isEmpty()) {
-      throw new HttpError('Invalid inputs passed, please check your data.', 422);
-    }
-    const { name, email, password } = req.body; // will recieve json data from front to process further
-    console.log(email);
-    let existingUser;
-    try {
-      existingUser =await Doctor.findOne({ email: email}) // find the email in database
+    //const errors = validationResult(req); // this will validate the checks we put on user router file for name email and password.
+    //if (!errors.isEmpty()) {
+    //  throw new HttpError('Invalid inputs passed, please check your data.', 422);
+    //}
+    const { name, li } = req.body; // will recieve json data from front to process further
+    console.log(li);
+    //let existingUser;
+    //try {
+    //  existingUser =await Motivation.findOne({ email: email}) // find the email in database
         
-    } catch (err) {
-        const error = new HttpError('SigningUP failed',500);
-          return next(error);
+    //} catch (err) {
+    //    const error = new HttpError('SigningUP failed',500);
+    //      return next(error);
         
-    }
-    console.log(existingUser);
-        if (existingUser) {
-            const error = new HttpError('User already exist',422);
-          return next(error);
+    //}
+    //console.log(existingUser);
+    //    if (existingUser) {
+    //        const error = new HttpError('User already exist',422);
+    //      return next(error);
             
-        }
+    //    }
   
-        let hashedPassword;
-        try{
-        hashedPassword = await bcrypt.hash(password,12); // hash the password to 12 digits
-        }
-        catch(err)
-        {
-          const error = new HttpError('could not create', 500);  
-          return next(error);
-        }
-    const createdUser =new Doctor ({ // create new user template to enter in database
+    //    let hashedPassword;
+    //    try{
+    //    hashedPassword = await bcrypt.hash(password,12); // hash the password to 12 digits
+    //    }
+    //    catch(err)
+    //    {
+    //      const error = new HttpError('could not create', 500);  
+    //      return next(error);
+    //    }
+    const createdUser =new Motivation ({ // create new user template to enter in database
   
       name, 
-      email,
-      password : hashedPassword,
+      li
     //  status:"false",
     //  order:""
     });
-  console.log(hashedPassword);
     try {
       await createdUser.save();
       console.log("bithc"); // save the data in database by this line
@@ -294,21 +309,21 @@ const signup =async  (req, res, next) => {
       );
       return next(error);
     }
-    let token;
-    try {
-      token = jwt.sign(
-        { userId: createdUser.id, email: createdUser.email }, // it will create a token storing email and user ID in it
-        'supersecret_dont_share', // this is the key which is very specific and could lead to system hack
-        { expiresIn: '1h' }// token will be expired in 1hr
-      );
-    } catch (err) {
-      const error = new HttpError(
-        'Signing up failed, please try again later.',
-        500
-      );
-      return next(error);
-    }
-    res.status(201).json({user: createdUser.toObject({ getters: true }),token: token}); // returns the object of created user and token
+    //let token;
+    //try {
+    //  token = jwt.sign(
+    //    { userId: createdUser.id, email: createdUser.email }, // it will create a token storing email and user ID in it
+    //    'supersecret_dont_share', // this is the key which is very specific and could lead to system hack
+    //    { expiresIn: '1h' }// token will be expired in 1hr
+    //  );
+    //} catch (err) {
+    //  const error = new HttpError(
+    //    'Signing up failed, please try again later.',
+    //    500
+    //  );
+    //  return next(error);
+    //}
+    res.status(201).json({user: createdUser.toObject({ getters: true })}); // returns the object of created user and token
   };
   const cancelAnAppointment =async  (req, res, next) => {
     const { userID, docID } = req.body;
@@ -334,7 +349,7 @@ const signup =async  (req, res, next) => {
       subject: 'Confirmation of Appointment',
       html: `<p>Hello Patient,</p>
               <p>The doctor is busy on please choose som other day for the appointment.</p>
-              <p>Regards MediTech</p>`
+              <p>Regards Cook-Box</p>`
     };
     // var mailOptions2 = { // this will set the content of the mail which the nodemailer will send.
     //   from: 'meditech.appointment@gmail.com',
@@ -377,17 +392,17 @@ const signup =async  (req, res, next) => {
       from: 'meditech.appointment@gmail.com',
       to: docID,
       subject: 'Confirmation of Appointment',
-      html: `<p>Hello Doctor,</p>
-              <p>The patient  (${userID}) has  booked an appointment with you for ${date} at (${time}).</p>
-              <p>Regards MediTech</p>`
+      html: `<p>Hello,</p>
+              <p>The client (${userID}) has  booked an appointment with you for ${date} at (${time}).</p>
+              <p>Regards Cook-Box</p>`
     };
     var mailOptions2 = { // this will set the content of the mail which the nodemailer will send.
       from: 'meditech.appointment@gmail.com',
       to: userID,
       subject: 'Confirmation of Appointment',
       html: `<p>Hello Patient,</p>
-              <p>The doctor  (${docID}) has booked an appointment with you for ${date} at (${time}).</p>
-              <p>Regards MediTech</p>`
+              <p>The  (${docID}) has booked an appointment with you for ${date} at (${time}).</p>
+              <p>Regards Cook-Box</p>`
     };
     
     transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
@@ -433,7 +448,7 @@ const signup =async  (req, res, next) => {
               <p>The patient ${patName} (${patEmail}) wants to book an appointment with you for ${date}.</p>
               <a href= 'http://localhost:3000/confirmappointment/${patEmail}/${docEmail}'> click to confirm and add the time  </a>
               <a href= "http://localhost:3000/denyappointment"> click to deny we'll send a mail to choose another date to the user  </a>
-              <p>Regards MediTech</p>`
+              <p>Regards Cook-Box</p>`
     };
     
     transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
@@ -457,3 +472,4 @@ const signup =async  (req, res, next) => {
   exports.bookAnAppointment=bookAnAppointment;
   exports.getAllDocs=getAllDocs;
   exports.Appointment=Appointment;
+  exports.getAllMotivation=getAllMotivation;
