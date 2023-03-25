@@ -26,7 +26,7 @@ function Upload() {
     const onFormSubmit =async e => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('email',auth.userId);
+        formData.append('email', document.getElementById('em').value);
         formData.append('name', document.getElementById('name').value);
         formData.append('ing1', document.getElementById('ing1').value);
         formData.append('ing2', document.getElementById('ing2').value);
@@ -73,6 +73,10 @@ function Upload() {
                           <Form.Group controlId="formBasicEmail">
                           <InputGroup className="mb-3">
 
+<Form.Control type="emal" id="em" placeholder="Email" className="FormStyle" />
+</InputGroup>
+                          <InputGroup className="mb-3">
+
                             <Form.Control type="text" id="name" placeholder="Name of Dish" className="FormStyle" />
                             </InputGroup>
                           </Form.Group>
@@ -107,7 +111,7 @@ function Upload() {
                                       backgroundColor: "#43bfc7",
                                      fontFamily: "Montserrat, sans-serif",
                                      fontWeight: "600",
-                                              }} className="button1"  type="submit">Log In</Button>
+                                              }} className="button1"  type="submit">Upload</Button>
                         </Form>
                       </Card.Text>
                     </Card.Body>

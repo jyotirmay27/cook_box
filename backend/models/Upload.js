@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 
 const uploadSchema = new Schema({
-    name: { type: String , required: true},
-    userid: { type: String , required: true}, //the database will contain a row for '' in it
-    image: { type: String, required: true },
+    name: { type: String },
+    userid: { type: String }, //the database will contain a row for '' in it
+    image: { type: String },
 
     ing1:{ type: String },
     ing2:{ type: String },

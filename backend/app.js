@@ -66,7 +66,7 @@ app.use((error,req,res,next)=> {
 
 //app.listen(5000);
 mongoose
-.connect('mongodb+srv://jyotirmay27:helloworld@cluster0.0qr9c.mongodb.net/?retryWrites=true&w=majority')
+.connect('mongodb+srv://jyotirmay27:<password>@cluster0.0qr9c.mongodb.net/?retryWrites=true&w=majority')
 .then(()=> {
     console.log("connection established");
     app.listen(5000);

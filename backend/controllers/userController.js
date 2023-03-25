@@ -135,16 +135,14 @@ const signup =async  (req, res, next) => {
 
 
   const upload = async (req, res, next) => {
-    //const errors = validationResult(req);
-    //if (!errors.isEmpty()) {
-    //  return next(
-    //    new HttpError('Invalid inputs passed, please check your data.', 422)
-    //  );
-    //}
-    //const usid= req.params.uid
+    
     const { name, email, ing1,ing2,ing3,ing4 } = req.body;
     console.log(name);
     console.log(email);
+    console.log(ing1);
+    console.log(ing2);
+    console.log(ing3);
+    console.log(ing4);
     console.log("hell");
    
     
@@ -337,7 +335,7 @@ const signup =async  (req, res, next) => {
       service: 'gmail',
       auth: {
         user: 'codingstrings.js@gmail.com',
-        pass: 'mfsjthupwqfvldut'
+        pass: 
       }
     });
     let f;
@@ -382,7 +380,7 @@ const signup =async  (req, res, next) => {
       service: 'gmail',
       auth: {
         user: 'codingstrings.js@gmail.com',
-        pass: 'mfsjthupwqfvldut'
+        pass: 
       }
     });
     let f=userID+docID;
@@ -434,7 +432,7 @@ const signup =async  (req, res, next) => {
       service: 'gmail',
       auth: {
         user: 'codingstrings.js@gmail.com',
-        pass: 'mfsjthupwqfvldut'
+        pass: 
       }
     });
     let f;
