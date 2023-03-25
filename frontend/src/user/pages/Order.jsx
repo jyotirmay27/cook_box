@@ -3,41 +3,30 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import useRazorpay from "react-razorpay";
-
+import axios from "axios";
 function Order() {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const Razorpay = useRazorpay();
+    //const Razorpay = useRazorpay();
     const checkoutHandler = async (amount) => {
 
-        console.log(amount);
-        const key = await sendRequest(
-            'http://www.localhost:5000/api/getkey'
-          );
-        //const { data: { key } } = await axios.get("http://www.localhost:4000/api/getkey")
-            console.log(key);
-        const order =await sendRequest(
-            'http://www.localhost:5000/api/checkout',
-            'Post',
-            JSON.stringify({
+        const { data: { key } } = await axios.get("http://www.localhost:5000/api/payment/getkey")
+
+        const { data: { order } } = await axios.post("http://localhost:5000/api/payment/checkout", {
             amount
-            }),
-            {
-                'Content-Type': 'application/json'
-              }
-          );
-            console.log(order.order);
+        })
+
         const options = {
-            key : key.key,
-            amount: order.order.amount,
+            key,
+            amount: order.amount,
             currency: "INR",
-            name: "Ok",
+            name: "6 Pack Programmer",
             description: "Tutorial of RazorPay",
             image: "https://avatars.githubusercontent.com/u/25058652?v=4",
             order_id: order.id,
-            callback_url: "http://localhost:5000/api/paymentverification",
+            callback_url: "http://localhost:5000/api/payment/paymentverification",
             prefill: {
-                name: "Jyotirmay Jain",
-                email: "jj@example.com",
+                name: "Gaurav Kumar",
+                email: "gaurav.kumar@example.com",
                 contact: "9999999999"
             },
             notes: {
@@ -59,7 +48,7 @@ function Order() {
         <Card.Text>
           With supporting text below as a natural lead-in to additional content.
         </Card.Text>
-        <Button variant="primary"  onClick={() => checkoutHandler(3000)}>order</Button>
+        <Button variant="primary"  onClick={() => checkoutHandler(1)}>order</Button>
       </Card.Body>
       <Card.Footer className="text-muted">2 days ago</Card.Footer>
     </Card>

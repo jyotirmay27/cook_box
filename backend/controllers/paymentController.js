@@ -2,7 +2,7 @@
 const crypto=require('crypto');
 const Payment=require('../models/paymentModel');
 const Razorpay = require('razorpay');
-var instance = new Razorpay({
+const instance = new Razorpay({
     key_id:"rzp_test_WNxHRjLcpl7VjP",
     key_secret: "B0JG14StCRjX9K0q3fWbXxC9",
   });
@@ -32,7 +32,7 @@ const getkey =  (req, res) => {
  const paymentVerification = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
-
+console.log(req.body);
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
   const expectedSignature = crypto
@@ -41,20 +41,35 @@ const getkey =  (req, res) => {
     .digest("hex");
 
   const isAuthentic = expectedSignature === razorpay_signature;
-
+  console.log(expectedSignature);
   if (isAuthentic) {
     // Database comes here
+    try {
+        await Payment.create({
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+          });
+      
+      } catch (err) {
+          
+          console.log(err);
+  
+        const error = new HttpError(
+          'uploading up failed, please try again.',
+          500
+        );
+      }
+   
 
-    await Payment.create({
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    });
 
     res.redirect(
-      `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
+      `http://localhost:3000/home`
     );
   } else {
+    res.redirect(
+        `http://localhost:3000/home`
+      );
     res.status(400).json({
       success: false,
     });

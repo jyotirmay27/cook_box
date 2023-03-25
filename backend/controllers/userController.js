@@ -219,24 +219,7 @@ const signup =async  (req, res, next) => {
     console.log(name);
     console.log(email);
     console.log("hell");
-    //let existingUser
-    //try {
-    //  existingUser = await User.findOne({ email: email })
-    //} catch (err) {
-        
-    //  const error = new HttpError(
-    //    'Signing up failed, please try again later.',
-    //    500
-    //  );
-    //  return next(error);
-    //}
-    //if (existingUser) {
-    //  const error = new HttpError(
-    //    'User exists already, please login instead.',
-    //    422
-    //  );
-    //  return next(error);
-    //}
+   
     
     const createdUpload = new Upload({
         name,
@@ -333,61 +316,3 @@ const signup =async  (req, res, next) => {
   exports.upload = upload;
   exports.getAll = getAll;
   exports.getBySearch = getBySearch;
-
-//  const login =async  (req, res, next) => {
-//    const { email, password } = req.body;
-//    console.log(email);
-//    let existingUser;
-  
-//    try {
-//      existingUser = await User.findOne({ email: email }) // find the entry in database
-//    } catch (err) {
-//      const error = new HttpError(
-//        'Logging in failed, please try again later.',
-//        500
-//      );
-//      return next(error);
-//    }
-  
-//    if (!existingUser ) {
-//      const error = new HttpError(
-//        'Invalid credentials, could not log you in.',
-//        401
-//      );
-//      return next(error);
-//    }
-  
-//    let isValidPassword= false;
-//    try {
-//    isValidPassword= await bcrypt.compare(password,existingUser.password) // will conpare the password you entered and which is saved hashed in database.
-//    }
-//    catch(err)
-//    {
-//      const error = new HttpError(
-//        ' could not log you in.',
-//        401
-//      );
-//      return next(error);
-  
-//    }
-//    let token;
-//    try {
-//      token = jwt.sign(
-//        { userId: existingUser.id, email: existingUser.email }, // it will create a token using ur user ID and email.
-//        'supersecret_dont_share',// this is the key which is very specific and could lead to system hack
-//        { expiresIn: '1h' } // token will be expired in 1hr
-//      );
-//    } catch (err) {
-//      const error = new HttpError(
-//        'Logging in failed, please try again later.',
-//        500
-//      );
-//      return next(error);
-//    }
-  
-//    res.json({message: 'Logged in!',
-//    user: existingUser.toObject({getters: true}),
-//    token:token});// getters: true will send response object ID as 'id' instead of '_id' which mongoDB created automatically
-  
-//    // this fetch the Prescriptions for the particular user
-//  };

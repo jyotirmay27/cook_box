@@ -8,11 +8,13 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const mongoose = require('mongoose');
 const paymentRoute = require('./routes/paymentRoutes');
+const cors=  require('cors');
 
 
 //config({ path: "./config/config.env" });
 
 const app = express();
+app.use(cors());
 
 // bodyparser is used to parse the body to make connection smoother
 app.use(bodyParser.json());
@@ -38,7 +40,7 @@ app.use('/api/users',userRoutes);
 ////}
 ////)
 //);
-app.use("/api", paymentRoute);
+app.use("/api/payment", paymentRoute);
 app.use((req,res,next)=>{ 
     const error = new HttpError('Could not find this shit' , 404);
     throw error;
