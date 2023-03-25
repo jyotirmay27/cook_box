@@ -6,58 +6,8 @@ const Upload= require('../models/Upload');
 const bcrypt =require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
+const Driver= require('../models/Driver');
 
-//const signup = async (req, res, next) => {
-//    const errors = validationResult(req);
-//    if (!errors.isEmpty()) {
-//      return next(
-//        new HttpError('Invalid inputs passed, please check your data.', 422)
-//      );
-//    }
-//    const { name, email, password } = req.body;
-//    console.log(name);
-//    console.log(email);
-//    console.log("hell");
-//    let existingUser
-//    try {
-//      existingUser = await User.findOne({ email: email })
-//    } catch (err) {
-        
-//      const error = new HttpError(
-//        'Signing up failed, please try again later.',
-//        500
-//      );
-//      return next(error);
-//    }
-//    if (existingUser) {
-//      const error = new HttpError(
-//        'User exists already, please login instead.',
-//        422
-//      );
-//      return next(error);
-//    }
-    
-//    const createdUser = new User({
-//      name,
-//      email,
-//      password
-//    });
-  
-//    try {
-//      await createdUser.save();
-//    } catch (err) {
-//        console.log("ggg3");
-//        console.log(err);
-
-//      const error = new HttpError(
-//        'Signing up failed, please try again.',
-//        500
-//      );
-//      return next(error);
-//    }
-  
-//    res.status(201).json({user: createdUser.toObject({ getters: true })});
-//  };
 const signup =async  (req, res, next) => {
     const errors = validationResult(req); // this will validate the checks we put on user router file for name email and password.
     if (!errors.isEmpty()) {
@@ -178,34 +128,8 @@ const signup =async  (req, res, next) => {
     user: existingUser.toObject({getters: true}),
     token:token});// getters: true will send response object ID as 'id' instead of '_id' which mongoDB created automatically
   
-    // this fetch the Prescriptions for the particular user
   };
-//  const login = async (req, res, next) => {
-//    const { email, password } = req.body;
-//  console.log(email);
-//  console.log(password);
-//    let existingUser;
-  
-//    try {
-//      existingUser = await User.findOne({ email: email })
-//    } catch (err) {
-//      const error = new HttpError(
-//        'Logging in failed, please try again later.',
-//        500
-//      );
-//      return next(error);
-//    }
-  
-//    if (!existingUser || existingUser.password !== password) {
-//      const error = new HttpError(
-//        'Invalid credentials, could not log you in.',
-//        401
-//      );
-//      return next(error);
-//    }
-//    console
-//    res.json({message: 'Logged in!'});
-//  };
+
 
 
   const upload = async (req, res, next) => {
@@ -215,6 +139,7 @@ const signup =async  (req, res, next) => {
     //    new HttpError('Invalid inputs passed, please check your data.', 422)
     //  );
     //}
+    //const usid= req.params.uid
     const { name, email, ing1,ing2,ing3,ing4 } = req.body;
     console.log(name);
     console.log(email);
@@ -290,9 +215,186 @@ const signup =async  (req, res, next) => {
   };// getters: true will send response object ID as 'id' instead of '_id' which mongoDB created automatically
 
   // this fetch the medicines for the particular user
- 
+  const getDriver = async(req, res, next) => {
+    var x = "false";
+    const drivers = await Driver.find({status: x});
+    var info;
+    console.log(drivers);
+    // if(drivers.length == 0)
+    //   res.json({info:{} });
+    // else
+      res.json({ info: drivers.map(driver => driver.toObject({ getters: true })) });
+  };
+
+  const createDriver = async (req, res, next) => {
+    const errors = validationResult(req); // this will validate the checks we put on user router file for name email and password.
+    if (!errors.isEmpty()) {
+      throw new HttpError('Invalid inputs passed, please check your data.', 422);
+    }
+    const { name, email, password } = req.body; // will recieve json data from front to process further
+    console.log(email);
+    let existingUser;
+    try {
+      existingUser =await Driver.findOne({ email: email}) // find the email in database
+        
+    } catch (err) {
+        const error = new HttpError('SigningUP failed',500);
+          return next(error);
+        
+    }
+    console.log(existingUser);
+        if (existingUser) {
+            const error = new HttpError('User already exist',422);
+          return next(error);
+            
+        }
+  
+        let hashedPassword;
+        try{
+        hashedPassword = await bcrypt.hash(password,12); // hash the password to 12 digits
+        }
+        catch(err)
+        {
+          const error = new HttpError('could not create', 500);  
+          return next(error);
+        }
+    const createdUser =new Driver ({ // create new user template to enter in database
+  
+      name, 
+      email,
+      password : hashedPassword,
+      status:"false",
+      order:""
+    });
+  console.log(hashedPassword);
+    try {
+      await createdUser.save();
+      console.log("bithc"); // save the data in database by this line
+    } catch (err) {
+      const error = new HttpError(
+        'Signing up failed, please try again.',
+        500
+      );
+      return next(error);
+    }
+    let token;
+    try {
+      token = jwt.sign(
+        { userId: createdUser.id, email: createdUser.email }, // it will create a token storing email and user ID in it
+        'supersecret_dont_share', // this is the key which is very specific and could lead to system hack
+        { expiresIn: '1h' }// token will be expired in 1hr
+      );
+    } catch (err) {
+      const error = new HttpError(
+        'Signing up failed, please try again later.',
+        500
+      );
+      return next(error);
+    }
+    res.status(201).json({user: createdUser.toObject({ getters: true }),token: token}); // returns the object of created user and token
+  };
+  const cancelAnAppointment =async  (req, res, next) => {
+    const { userID, docID } = req.body;
+    
+  
+  
+  //var patName = name;
+  
+  
+  var transporter = nodemailer.createTransport({ // it will provide the mail id password from the the site has to send mails whenever required.
+      service: 'gmail',
+      auth: {
+        user: 'codingstrings.js@gmail.com',
+        pass: 'mfsjthupwqfvldut'
+      }
+    });
+    let f;
+    
+    
+    var mailOptions = { // this will set the content of the mail which the nodemailer will send.
+      from: 'meditech.appointment@gmail.com',
+      to: userID,
+      subject: 'Confirmation of Appointment',
+      html: `<p>Hello Patient,</p>
+              <p>The doctor is busy on please choose som other day for the appointment.</p>
+              <p>Regards MediTech</p>`
+    };
+    // var mailOptions2 = { // this will set the content of the mail which the nodemailer will send.
+    //   from: 'meditech.appointment@gmail.com',
+    //   to: userID,
+    //   subject: 'Confirmation of Appointment',
+    //   html: `<p>Hello Patient,</p>
+    //           <p>The doctor  (${userID}) has booked an appointment with you for ${date} at (${time}).</p>
+    //           <p>Regards MediTech</p>`
+    // };
+    console.log("jui");
+    
+    transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info);
+      }
+    });
+    res.json({message: 'Mail Sent!'});
+  };
+  const bookAnAppointment =async  (req, res, next) => {
+    const { date, time, userID, docID } = req.body;
+    
+  
+  
+  //var patName = name;
+  
+  console.log("book");
+  var transporter = nodemailer.createTransport({ // it will provide the mail id password from the the site has to send mails whenever required.
+      service: 'gmail',
+      auth: {
+        user: 'codingstrings.js@gmail.com',
+        pass: 'mfsjthupwqfvldut'
+      }
+    });
+    let f=userID+docID;
+    
+    
+    var mailOptions = { // this will set the content of the mail which the nodemailer will send.
+      from: 'meditech.appointment@gmail.com',
+      to: docID,
+      subject: 'Confirmation of Appointment',
+      html: `<p>Hello Doctor,</p>
+              <p>The patient  (${userID}) has  booked an appointment with you for ${date} at (${time}).</p>
+              <p>Regards MediTech</p>`
+    };
+    var mailOptions2 = { // this will set the content of the mail which the nodemailer will send.
+      from: 'meditech.appointment@gmail.com',
+      to: userID,
+      subject: 'Confirmation of Appointment',
+      html: `<p>Hello Patient,</p>
+              <p>The doctor  (${docID}) has booked an appointment with you for ${date} at (${time}).</p>
+              <p>Regards MediTech</p>`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    transporter.sendMail(mailOptions2, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    res.json({message: 'Mail Sent!'});
+  };
   exports.signup = signup;
   exports.login = login;
   exports.upload = upload;
   exports.getAll = getAll;
   exports.getBySearch = getBySearch;
+  exports.getDriver = getDriver;
+  exports.createDriver = createDriver;
+  exports.cancelAnAppointment=cancelAnAppointment;
+  exports.bookAnAppointment=bookAnAppointment;

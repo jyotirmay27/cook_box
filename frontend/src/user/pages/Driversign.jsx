@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import {AuthContext} from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import { useNavigate } from 'react-router-dom';
-function Signup() {
+function DriverSignup() {
 
     const auth = useContext(AuthContext);
     const history = useNavigate();
@@ -19,7 +19,7 @@ function Signup() {
       console.log(email);
       try {
         const responseData = await sendRequest(
-          'http://localhost:5000/api/users/signup',
+          'http://localhost:5000/api/users/signupDriver',
           'POST',
           JSON.stringify({
             name: name,
@@ -31,11 +31,11 @@ function Signup() {
           }
         );
   
-        auth.login(responseData.user.email,responseData.token);
+        //auth.login(responseData.user.email,responseData.token);
         document.getElementById('em'). value="";
         document.getElementById('pass'). value="";
         document.getElementById('name'). value="";
-        history('/home');
+        history('/');
       } catch (err) {}
    
     }
@@ -83,4 +83,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default DriverSignup;

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/checkout",paymentControllers.checkout);
 
-router.post("/paymentverification",paymentControllers.paymentVerification);
+router.post("/paymentverification/:uid",paymentControllers.paymentVerification);
 
 router.get("/getkey",paymentControllers.getkey);
 module.exports  = router;

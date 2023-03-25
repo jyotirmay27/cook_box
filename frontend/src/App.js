@@ -19,6 +19,9 @@ import Order from './user/pages/Order';
 import Search from './user/pages/search';
 import { AuthContext } from './shared/context/auth-context';
 import { FrontPage } from './user/pages/FrontPage';
+import DriverSignup from './user/pages/Driversign';
+import DenyAppointment from './user/pages/cancelA';
+import ConfirmAppointment from './user/pages/acceptA';
 function App() {
     const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
@@ -72,6 +75,10 @@ if (token) {
         <Route path="/list"  element={<SList />}/>
         <Route path="/upload" element={<Upload />}/>
         <Route path="/redirect" element={ <Navigate to="/home" /> } />
+        <Route path="/driver" element={<DriverSignup />}/>
+        <Route path="/cancel"  element={<Auth />}/>
+        <Route path="/denyappointment/:userID/:docID"  element={<DenyAppointment />}/>
+        <Route path="/confirmappointment/:userID/:docID"  element={<ConfirmAppointment />}/>
 
       </Routes>
     );
@@ -83,6 +90,7 @@ if (token) {
         <Route path="/login"  element={<Auth />}/>
         <Route path="/signin"  element={<Signup />}/>
         <Route path="/redirect" element={ <Navigate to="/" /> } />
+        <Route path="/driver" element={<DriverSignup />}/>
 
       </Routes>
     );

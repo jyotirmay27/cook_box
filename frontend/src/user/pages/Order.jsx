@@ -1,12 +1,15 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import useRazorpay from "react-razorpay";
 import axios from "axios";
+import { AuthContext} from '../../shared/context/auth-context';
+
 function Order() {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     //const Razorpay = useRazorpay();
+    const auth = useContext(AuthContext);
     const checkoutHandler = async (amount) => {
 
         const { data: { key } } = await axios.get("http://www.localhost:5000/api/payment/getkey")
@@ -23,7 +26,7 @@ function Order() {
             description: "Tutorial of RazorPay",
             image: "https://avatars.githubusercontent.com/u/25058652?v=4",
             order_id: order.id,
-            callback_url: "http://localhost:5000/api/payment/paymentverification",
+            callback_url: `http://localhost:5000/api/payment/paymentverification/${auth.userId}`,
             prefill: {
                 name: "Gaurav Kumar",
                 email: "gaurav.kumar@example.com",

@@ -6,6 +6,9 @@ const instance = new Razorpay({
     key_id:"rzp_test_WNxHRjLcpl7VjP",
     key_secret: "B0JG14StCRjX9K0q3fWbXxC9",
   });
+  const Driver= require('../models/Driver');
+  const nodemailer = require("nodemailer");
+
 const getkey =  (req, res) => {
 
     console.log("jo");
@@ -30,50 +33,55 @@ const getkey =  (req, res) => {
 
 
  const paymentVerification = async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
-console.log(req.body);
-  const body = razorpay_order_id + "|" + razorpay_payment_id;
 
-  const expectedSignature = crypto
-    .createHmac("sha256", "B0JG14StCRjX9K0q3fWbXxC9")
-    .update(body.toString())
-    .digest("hex");
+    var x = "false";
+    const drivers = await Driver.find({status: x});
+    var info;
+    console.log(drivers);
+    // if(drivers.length == 0)
+    //   res.json({info:{} });
+    // else
+     info=drivers[0];
+    const usid= req.params.uid
 
-  const isAuthentic = expectedSignature === razorpay_signature;
-  console.log(expectedSignature);
-  if (isAuthentic) {
-    // Database comes here
-    try {
-        await Payment.create({
-            razorpay_order_id,
-            razorpay_payment_id,
-            razorpay_signature,
-          });
-      
-      } catch (err) {
-          
-          console.log(err);
+var patEmail = usid;
+var driverEmail = info.email;
+
+
+var transporter = nodemailer.createTransport({ // it will provide the mail id password from the the site has to send mails whenever required.
+    service: 'gmail',
+    auth: {
+      user: 'codingstrings.js@gmail.com',
+      pass: 'mfsjthupwqfvldut'
+    }
+  });
+  let f;
   
-        const error = new HttpError(
-          'uploading up failed, please try again.',
-          500
-        );
-      }
+  
+  var mailOptions = { // this will set the content of the mail which the nodemailer will send.
+    from: 'codingstrings.js@gmail.com',
+    to: driverEmail,
+    subject: 'Book an appointment',
+    html: `<p>Hello Doctor,</p>
+            <p>The patient (${patEmail}) wants to book an appointment with you for.</p>
+            <a href= 'http://localhost:3000/confirmappointment/${patEmail}/${driverEmail}'> click to confirm and add the time  </a>
+            <p>Regards CookBox</p>`
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info);
+    }
+  });
+//  res.json({message: 'Mail Sent!'});
    
 
 
     res.redirect(
       `http://localhost:3000/home`
     );
-  } else {
-    res.redirect(
-        `http://localhost:3000/home`
-      );
-    res.status(400).json({
-      success: false,
-    });
-  }
 };
 exports.checkout = checkout;
 exports.paymentVerification = paymentVerification;
