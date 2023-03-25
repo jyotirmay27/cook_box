@@ -36,7 +36,7 @@ function Search() {
       }
     const routeChange= () =>{ 
   
-      history('/');
+      history('/order');
     };
 
   return (
@@ -125,7 +125,7 @@ function Search() {
                         </Card.Text>
                         </Link>
                         <Button variant="success" className="DoctorListButtonAppointment" onClick={routeChange}>
-                        Book An Appointment
+                        order
                     </Button>
                     </Card.Body>
                 </Card>

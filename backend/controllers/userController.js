@@ -145,8 +145,7 @@ const signup =async  (req, res, next) => {
     console.log(name);
     console.log(email);
     console.log("hell");
-   
-    
+    // console.log(req.file.path);
     const createdUpload = new Upload({
         name,
          userid:email,
@@ -334,7 +333,7 @@ const signup =async  (req, res, next) => {
       subject: 'Confirmation of Appointment',
       html: `<p>Hello Patient,</p>
               <p>The doctor is busy on please choose som other day for the appointment.</p>
-              <p>Regards MediTech</p>`
+              <p>Regards cook-box</p>`
     };
     // var mailOptions2 = { // this will set the content of the mail which the nodemailer will send.
     //   from: 'meditech.appointment@gmail.com',
@@ -379,7 +378,7 @@ const signup =async  (req, res, next) => {
       subject: 'Confirmation of Appointment',
       html: `<p>Hello Doctor,</p>
               <p>The patient  (${userID}) has  booked an appointment with you for ${date} at (${time}).</p>
-              <p>Regards MediTech</p>`
+              <p>Regards cook-box</p>`
     };
     var mailOptions2 = { // this will set the content of the mail which the nodemailer will send.
       from: 'meditech.appointment@gmail.com',
@@ -387,7 +386,7 @@ const signup =async  (req, res, next) => {
       subject: 'Confirmation of Appointment',
       html: `<p>Hello Patient,</p>
               <p>The doctor  (${docID}) has booked an appointment with you for ${date} at (${time}).</p>
-              <p>Regards MediTech</p>`
+              <p>Regards cook-box</p>`
     };
     
     transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
@@ -433,7 +432,7 @@ const signup =async  (req, res, next) => {
               <p>The patient ${patName} (${patEmail}) wants to book an appointment with you for ${date}.</p>
               <a href= 'http://localhost:3000/confirmappointment/${patEmail}/${docEmail}'> click to confirm and add the time  </a>
               <a href= "http://localhost:3000/denyappointment"> click to deny we'll send a mail to choose another date to the user  </a>
-              <p>Regards MediTech</p>`
+              <p>Regards cook-box</p>`
     };
     
     transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
@@ -445,7 +444,22 @@ const signup =async  (req, res, next) => {
     });
     res.json({message: 'Mail Sent!'});
   };
-  
+  const rateRecipe = async (req, res, next) => {
+    const x = req.params.id;
+    console.log("hi")
+    console.log(req.body.x);
+    const y = req.body.x;
+    const recipe = await Upload.findById(x);
+    recipe.rate.push(y);
+    // const recipe = await Upload.updateMany(
+    //   {_id: x},
+    //   {$push: {rate: x}},
+    //   )
+    console.log(recipe.rate);
+    recipe.save();
+    res.status(200).json("rating updated");
+  };
+  exports.rateRecipe = rateRecipe;
   exports.signup = signup;
   exports.login = login;
   exports.upload = upload;

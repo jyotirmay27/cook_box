@@ -11,7 +11,11 @@ const uploadSchema = new Schema({
     ing1:{ type: String },
     ing2:{ type: String },
     ing3:{ type: String },
-    ing4:{ type: String } 
+    ing4:{ type: String },
+    rate: {
+        type: [Number],
+        default: []
+    },
 
     
 

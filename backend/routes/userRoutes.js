@@ -20,7 +20,7 @@ router.get('/getDriver', usersControllers.getDriver);
 router.post('/signup',usersControllers.signup);
 router.post('/bookanappointment', usersControllers.bookAnAppointment);
 router.post('/cancelanappointment', usersControllers.cancelAnAppointment);
-
+router.put('/recipe/:id', usersControllers.rateRecipe);
 
 // when a user enters his/her credentials this router will send the request to user controller to verify if its correct
 router.post('/login', usersControllers.login);
