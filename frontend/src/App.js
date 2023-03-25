@@ -24,6 +24,8 @@ import DenyAppointment from './user/pages/cancelA';
 import ConfirmAppointment from './user/pages/acceptA';
 import Doctor from './user/pages/Doctors';
 import Appointment from './user/pages/Appointment';
+import Video from './user/pages/Video';
+import Motivation from './user/pages/Motivation';
 function App() {
     const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
@@ -83,6 +85,10 @@ if (token) {
         <Route path="/confirmappointment/:userID/:docID"  element={<ConfirmAppointment />}/>
         <Route path="/doc" element={<Doctor />}/>
         <Route path="/appointment/:docId" element={<Appointment />}/>
+        <Route path="/video/:li" element={<Video />}/>
+        <Route path="/motivation" element={<Motivation />}/>
+
+
       </Routes>
     );
   }

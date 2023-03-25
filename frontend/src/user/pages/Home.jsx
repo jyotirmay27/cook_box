@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 //import image from '../../jj.jpg';
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -31,7 +33,8 @@ const Home = () => {
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [loadedRecipes, setLoadedRecipes] = useState();
-    
+    const history = useNavigate();
+
     useEffect(() => {
       const fetchUsers = async () => {
    
@@ -49,7 +52,10 @@ const Home = () => {
 
       console.log(loadedRecipes);
     }, [sendRequest]);
-
+    const routeChange= () =>{ 
+  
+        history('/order');
+      };
 
   return (
   <div>
@@ -76,7 +82,7 @@ const Home = () => {
                     sticky="top"
                     >
                         <Card.Body>
-                            <List/>
+                            Recipes
                         </Card.Body>
                     </Card>
                     </div>
@@ -99,13 +105,15 @@ const Home = () => {
             </Card.Body>
           </Card>*/}
           <div>
-            <Link to={`http://localhost:5000/${recipe.image}`} target = "_blank">
                 <Card border="info" className="DoctorListCards">
                     <br />
                     <font className="DoctorIcon">
                         <i className="fas fa-user-md fa-9x"></i>
                     </font>
+
                     <Card.Body>
+                    <Link to={`http://localhost:5000/${recipe.image}`} target = "_blank">
+
                         <Card.Title
                             style={{ fontSize: "2rem", color: "#195a65" }}
                         >
@@ -121,9 +129,13 @@ const Home = () => {
                                 
                             </ul>
                         </Card.Text>
+                        </Link>
                     </Card.Body>
+                    <Button variant="success" className="DoctorListButtonAppointment" onClick={routeChange}>
+                        order
+                    </Button>
                 </Card>
-            </Link>
+            
         </div>
         </Col>
       ))}

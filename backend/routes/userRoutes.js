@@ -10,6 +10,7 @@ const usersControllers = require('../controllers/userController');
 const router = express.Router();
 router.get('/all',usersControllers.getAll);
 router.get('/docs/all',usersControllers.getAllDocs);
+router.get('/videos/motivation',usersControllers.getAllMotivation);
 
 router.get('/search/:sid',usersControllers.getBySearch);
 router.post('/signupDriver', usersControllers.createDriver)

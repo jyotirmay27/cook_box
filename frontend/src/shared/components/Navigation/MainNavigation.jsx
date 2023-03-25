@@ -108,6 +108,11 @@ const MainNavigation = () => {
                             {"   "}
                             Counsellor
                         </NavLink>)}
+                        {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/motivation">
+                            <i class="fas fa-user-md"></i>
+                            {"   "}
+                            Movtivation
+                        </NavLink>)}
     {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/search">
                             <i class="fas fa-bacteria"></i>
                             {"   "}
