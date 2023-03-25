@@ -144,8 +144,7 @@ const signup =async  (req, res, next) => {
     console.log(ing3);
     console.log(ing4);
     console.log("hell");
-   
-    
+    // console.log(req.file.path);
     const createdUpload = new Upload({
         name,
          userid:email,
@@ -458,7 +457,22 @@ const signup =async  (req, res, next) => {
     });
     res.json({message: 'Mail Sent!'});
   };
-  
+  const rateRecipe = async (req, res, next) => {
+    const x = req.params.id;
+    console.log("hi")
+    console.log(req.body.x);
+    const y = req.body.x;
+    const recipe = await Upload.findById(x);
+    recipe.rate.push(y);
+    // const recipe = await Upload.updateMany(
+    //   {_id: x},
+    //   {$push: {rate: x}},
+    //   )
+    console.log(recipe.rate);
+    recipe.save();
+    res.status(200).json("rating updated");
+  };
+  exports.rateRecipe = rateRecipe;
   exports.signup = signup;
   exports.login = login;
   exports.upload = upload;
