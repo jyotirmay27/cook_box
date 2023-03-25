@@ -40,7 +40,7 @@ function Signup() {
     }
     const routeChange= () =>{ 
   
-      history.push('/');
+      history('/');
     };
 
   return (

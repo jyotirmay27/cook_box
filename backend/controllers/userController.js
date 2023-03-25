@@ -240,7 +240,7 @@ const signup =async  (req, res, next) => {
     
     const createdUpload = new Upload({
         name,
-         email,
+         userid:email,
          image:req.file.path, 
          ing1,
          ing2,

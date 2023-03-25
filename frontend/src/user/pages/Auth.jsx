@@ -35,6 +35,7 @@ function Auth() {
     document.getElementById('em'). value="";
     document.getElementById('pass'). value="";
     console.log("logged in");
+    history('/home');
   }catch (err) {
    
   }

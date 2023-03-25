@@ -45,7 +45,7 @@ function Upload() {
         //console.log(password);
         //document.getElementById('em'). value="";
         //document.getElementById('pass'). value="";
-      
+        history('/home');
     };
 
   return (

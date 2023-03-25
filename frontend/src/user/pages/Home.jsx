@@ -8,6 +8,9 @@ import Row from "react-bootstrap/Row";
 import List from '../components/List';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import { useNavigate } from 'react-router-dom';
+import '../../css/card.css';
+import { Link } from "react-router-dom";
+
 //let items = [];
 //for (let i = 0; i < 20; i++) {
 //    items.push(<Card style={{ width: '18rem' }}>
@@ -86,18 +89,42 @@ const Home = () => {
                     <Row xs={1} md={4} className="g-4">
       {loadedRecipes && loadedRecipes.map(recipe => (
         <Col>
-          <Card>
+          {/*<Card>
             <Card.Img variant="top" src={`http://localhost:5000/${recipe.image}`} />
             <Card.Body>
-              <Card.Title>{recipe.name}</Card.Title>
+              <Card.Title></Card.Title>
               <Card.Text>
-                {recipe.ing1}
-                {recipe.ing2}
-                {recipe.ing3}
-                {recipe.ing4}
+                
               </Card.Text>
             </Card.Body>
-          </Card>
+          </Card>*/}
+          <div>
+            <Link to={`http://localhost:5000/${recipe.image}`} target = "_blank">
+                <Card border="info" className="DoctorListCards">
+                    <br />
+                    <font className="DoctorIcon">
+                        <i className="fas fa-user-md fa-9x"></i>
+                    </font>
+                    <Card.Body>
+                        <Card.Title
+                            style={{ fontSize: "2rem", color: "#195a65" }}
+                        >
+                            {recipe.name}
+                        </Card.Title>
+                        <Card.Text>
+                        
+                            <ul>
+                             <li >{recipe.ing1}</li>
+                             <li > {recipe.ing2}</li>
+                             <li >{recipe.ing3}</li>
+                             <li >{recipe.ing4}</li>
+                                
+                            </ul>
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </Link>
+        </div>
         </Col>
       ))}
     </Row>

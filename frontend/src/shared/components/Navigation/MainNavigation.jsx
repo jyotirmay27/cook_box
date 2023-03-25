@@ -1,21 +1,20 @@
-import React, { useState,useContext } from 'react';
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useState,useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import { AuthContext} from '../../context/auth-context';
 import {NavLink , Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import SideDrawer from './SideDrawer';
 import Backdrop from '../UI/Backdrop';
-import './MainNav.css';
-import { useNavigate } from "react-router-dom";
-import { useHttpClient } from '../../hooks/useHttpClient';
-import {AuthContext} from '../../context/auth-context'
-const MainNavigation = props => {
-  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+import "./MainNav.css";
+const MainNavigation = () => {
   const auth = useContext(AuthContext);
-
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   const openDrawerHandler = () => {
     setDrawerIsOpen(true);
@@ -24,7 +23,7 @@ const MainNavigation = props => {
   const closeDrawerHandler = () => {
     setDrawerIsOpen(false);
   };
-  const history = useNavigate();
+   const history = useNavigate();
   const routeChange2= () =>{ 
   
     history('/search');
@@ -33,8 +32,8 @@ const MainNavigation = props => {
     //let path = `/login`; 
     history('login');
   }
-  return (
-    <React.Fragment>
+    return(
+      <React.Fragment>
       {drawerIsOpen && <Backdrop onClick={closeDrawerHandler} />}
       <SideDrawer show={drawerIsOpen} onClick={closeDrawerHandler}>
         <nav className="main-navigation__drawer-nav">
@@ -42,38 +41,47 @@ const MainNavigation = props => {
         <ul className="nav-links">
           
                         <li>
- {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/home">
-                            Add Vitals
-                        </NavLink>)}
-                        </li>
-                        <li>
-{auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/user">
+    {auth.isLoggedIn  &&( <NavLink className="NavbarLinks" to="/upload">
+                            <i class="fas fa-heartbeat"></i>
                             
-                           user
+                            Upload
                         </NavLink>)}
                         </li>
                         <li>
-{auth.isLoggedIn &&( <NavLink className="NavbarLinks" to="/auth">
-                            {"   "}
-                            auth
+    {auth.isLoggedIn  &&(<NavLink className="NavbarLinks" to="/home">
+                            <i class="fas fa-user-md"></i>
+                            
+                            Home
                         </NavLink>)}
                         </li>
-                       
+                        <li>
+    {auth.isLoggedIn  &&(<NavLink className="NavbarLinks" to="/search">
+                            <i class="fas fa-bacteria"></i>
+                            {"   "}
+                            Search
+                        </NavLink>)}
+                        </li>
+                        
+      {auth.isLoggedIn  && (
+        <li>
+          <button onClick={auth.logout}>LOGOUT</button>
+        </li>
+      )}
+       
+       {!auth.isLoggedIn && (
         <li>
           <button onClick={routeChange}>LOGIN</button>
         </li>
-
+      )}
     </ul>
 
   
         </nav>
       </SideDrawer>
         <Navbar sticky="top" bg="dark" variant="dark" className="BGGrade">
-  <Navbar.Brand className="MediTechLogo" href="/home">FeedMe</Navbar.Brand>
-  
+  <Navbar.Brand className="MediTechLogo" href="/home">CookBox</Navbar.Brand>
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
-  
     <Nav className="mr-auto"></Nav>
     <button
           className="main-navigation__menu-btn"
@@ -83,29 +91,26 @@ const MainNavigation = props => {
           <span />
           <span />
         </button>
-        
-            <Button variant="outline-success" onClick={routeChange2}>Search</Button>
-          
     <Nav className="main-navigation__header-nav">
-    
-{auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/home">
-                            <i class="fas fa-prescription"> </i>
+  
+    {auth.isLoggedIn &&( <Link className="NavbarLinks" to="/upload">
+                            <i class="fas fa-heartbeat"></i>
+                            {"   "}
+                            Upload
+                        </Link>)}
+    {auth.isLoggedI &&(<NavLink className="NavbarLinks" to="/home">
+                            <i class="fas fa-user-md"></i>
                             {"   "}
                             Home
                         </NavLink>)}
-{auth.isLoggedIn &&(<Link className="NavbarLinks" to="/user">
-                            <i class="fas fa-heartbeat"></i>
+    {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/search">
+                            <i class="fas fa-bacteria"></i>
                             {"   "}
-                            User
-                        </Link>)}
-{auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/auth">
-                            <i class="fas fa-user-md"></i>
-                            {"   "}
-                            Auth
+                            
+                            Search
                         </NavLink>)}
-{!auth.isLoggedIn &&(<Button onClick={routeChange}  variant="warning">Login</Button>)}
-{auth.isLoggedIn &&(<Button onClick={auth.logout}  variant="warning">Logout</Button>)}
-
+                        {auth.isLoggedIn  &&(<Button  onClick={auth.logout} variant="warning">Logout</Button>)}
+    {!auth.isLoggedIn  &&(<Button onClick={routeChange}  variant="warning">Login</Button>)}
     </Nav>
     
   </Navbar.Collapse>
@@ -114,5 +119,5 @@ const MainNavigation = props => {
     );
 
 };
-
+ 
 export default MainNavigation;
