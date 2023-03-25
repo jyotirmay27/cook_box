@@ -98,10 +98,15 @@ const MainNavigation = () => {
                             {"   "}
                             Upload
                         </Link>)}
-    {auth.isLoggedI &&(<NavLink className="NavbarLinks" to="/home">
+    {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/home">
                             <i class="fas fa-user-md"></i>
                             {"   "}
                             Home
+                        </NavLink>)}
+                        {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/doc">
+                            <i class="fas fa-user-md"></i>
+                            {"   "}
+                            Counsellor
                         </NavLink>)}
     {auth.isLoggedIn &&(<NavLink className="NavbarLinks" to="/search">
                             <i class="fas fa-bacteria"></i>

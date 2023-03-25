@@ -22,6 +22,8 @@ import { FrontPage } from './user/pages/FrontPage';
 import DriverSignup from './user/pages/Driversign';
 import DenyAppointment from './user/pages/cancelA';
 import ConfirmAppointment from './user/pages/acceptA';
+import Doctor from './user/pages/Doctors';
+import Appointment from './user/pages/Appointment';
 function App() {
     const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
@@ -79,7 +81,8 @@ if (token) {
         <Route path="/cancel"  element={<Auth />}/>
         <Route path="/denyappointment/:userID/:docID"  element={<DenyAppointment />}/>
         <Route path="/confirmappointment/:userID/:docID"  element={<ConfirmAppointment />}/>
-
+        <Route path="/doc" element={<Doctor />}/>
+        <Route path="/appointment/:docId" element={<Appointment />}/>
       </Routes>
     );
   }

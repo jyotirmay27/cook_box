@@ -7,6 +7,7 @@ const bcrypt =require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const Driver= require('../models/Driver');
+const Doctor= require('../models/Doctor');
 
 const signup =async  (req, res, next) => {
     const errors = validationResult(req); // this will validate the checks we put on user router file for name email and password.
@@ -190,6 +191,22 @@ const signup =async  (req, res, next) => {
 
    res.json({ recipes: recipes.map(recipe => recipe.toObject({ getters: true })) });
  };
+ const getAllDocs = async(req,res,next) =>{
+    // const userId=req.params.uid;  // this will bind the user Id from url to a constant
+    let recipes;
+    try {
+      recipes = await Doctor.find({});
+    } catch (err) {
+      const error = new HttpError(
+        'Fetching users failed, please try again later.',
+        500
+      );
+      return next(error);
+    }
+    console.log(recipes);
+ 
+    res.json({ docs: recipes.map(recipe => recipe.toObject({ getters: true })) });
+  };
  const getBySearch = async(req,res,next) =>{
     // const userId=req.params.uid;
       // this will bind the user Id from url to a constant
@@ -235,7 +252,7 @@ const signup =async  (req, res, next) => {
     console.log(email);
     let existingUser;
     try {
-      existingUser =await Driver.findOne({ email: email}) // find the email in database
+      existingUser =await Doctor.findOne({ email: email}) // find the email in database
         
     } catch (err) {
         const error = new HttpError('SigningUP failed',500);
@@ -258,13 +275,13 @@ const signup =async  (req, res, next) => {
           const error = new HttpError('could not create', 500);  
           return next(error);
         }
-    const createdUser =new Driver ({ // create new user template to enter in database
+    const createdUser =new Doctor ({ // create new user template to enter in database
   
       name, 
       email,
       password : hashedPassword,
-      status:"false",
-      order:""
+    //  status:"false",
+    //  order:""
     });
   console.log(hashedPassword);
     try {
@@ -389,6 +406,46 @@ const signup =async  (req, res, next) => {
     });
     res.json({message: 'Mail Sent!'});
   };
+
+  const Appointment =async  (req, res, next) => {
+    const { date, name, patEmail, docEmail } = req.body;
+    
+  
+  
+  var patName = name;
+  
+  console.log(docEmail);
+  var transporter = nodemailer.createTransport({ // it will provide the mail id password from the the site has to send mails whenever required.
+      service: 'gmail',
+      auth: {
+        user: 'codingstrings.js@gmail.com',
+        pass: 'mfsjthupwqfvldut'
+      }
+    });
+    let f;
+    
+    
+    var mailOptions = { // this will set the content of the mail which the nodemailer will send.
+      from: 'codingstrings.js@gmail.com',
+      to: docEmail,
+      subject: 'Book an appointment',
+      html: `<p>Hello Doctor,</p>
+              <p>The patient ${patName} (${patEmail}) wants to book an appointment with you for ${date}.</p>
+              <a href= 'http://localhost:3000/confirmappointment/${patEmail}/${docEmail}'> click to confirm and add the time  </a>
+              <a href= "http://localhost:3000/denyappointment"> click to deny we'll send a mail to choose another date to the user  </a>
+              <p>Regards MediTech</p>`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){ // it will trigger and a mail will be sent to the id provided by user 
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    res.json({message: 'Mail Sent!'});
+  };
+  
   exports.signup = signup;
   exports.login = login;
   exports.upload = upload;
@@ -398,3 +455,5 @@ const signup =async  (req, res, next) => {
   exports.createDriver = createDriver;
   exports.cancelAnAppointment=cancelAnAppointment;
   exports.bookAnAppointment=bookAnAppointment;
+  exports.getAllDocs=getAllDocs;
+  exports.Appointment=Appointment;

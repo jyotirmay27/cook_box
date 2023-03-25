@@ -9,8 +9,11 @@ const usersControllers = require('../controllers/userController');
 
 const router = express.Router();
 router.get('/all',usersControllers.getAll);
+router.get('/docs/all',usersControllers.getAllDocs);
+
 router.get('/search/:sid',usersControllers.getBySearch);
 router.post('/signupDriver', usersControllers.createDriver)
+router.post('/appointment', usersControllers.Appointment);
 
 router.get('/getDriver', usersControllers.getDriver);
 // when a user enters his/her credentials this router will send the request to POST to user controller

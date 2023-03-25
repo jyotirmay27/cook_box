@@ -36,7 +36,7 @@ function Search() {
       }
     const routeChange= () =>{ 
   
-      history.push('/');
+      history('/');
     };
 
   return (
