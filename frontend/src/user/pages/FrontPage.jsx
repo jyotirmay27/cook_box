@@ -68,8 +68,8 @@ export const FrontPage = () => {
                                     ></i>
                                     <h3 className="FPIconText">
                                         <br />
-                                        <Animation numbering={1000} />
-                                        Hospitals registered
+                                        <Animation numbering={100} />
+                                        Doctors registered
                                     </h3>
                                 </div>
                             </Fade>
@@ -90,8 +90,8 @@ export const FrontPage = () => {
                                     ></i>
                                     <h3 className="FPIconText">
                                         <br />
-                                        <Animation numbering={1000000} />
-                                        Patients registered
+                                        <Animation numbering={100} />
+                                        Users registered
                                     </h3>
                                 </div>
                             </Fade>
@@ -112,8 +112,8 @@ export const FrontPage = () => {
                                     ></i>
                                     <h3 className="FPIconText">
                                         <br />
-                                        <Animation numbering={1000} />
-                                        Doctors registered
+                                        <Animation numbering={100} />
+                                        Drivers registered
                                     </h3>
                                 </div>
                             </Fade>
@@ -144,16 +144,11 @@ export const FrontPage = () => {
                         <Col sm={7}>
                             <Fade right>
                                 <font className="FPAboutUsHeading">
-                                    CODEKAR
+                                    COOK-BOX
                                 </font>
                                 <hr className="AboutUs" />
                                 <p className="FPAboutUsText">
-                                    We are a team of four tech enthusiasts
-                                    striving to solve the problems of the world
-                                    and benefit the society. We want to put
-                                    technology to its best use to make people's
-                                    lives easier and the earth a better place to
-                                    live.
+                                Our goal is to enhance our users' productivity by alleviating their stress and providing them with a fulfilling hobby. In addition, we offer a range of services that cater to their wellness needs, including access to recipes and consultations with expert doctors.
                                 </p>
                             </Fade>
                         </Col>
@@ -177,14 +172,7 @@ export const FrontPage = () => {
                                 <br />
                                 <Fade right>
                                     <font className="FPFeaturesText">
-                                        We have a system to monitor your daily
-                                        vitals like blood pressure, blood sugar
-                                        levels, height, weight, and heart rate
-                                        through which you have a good idea of
-                                        your current health at all times. Vitals
-                                        are present as interactive graphs to you
-                                        and your doctor, so your health is
-                                        always in check.
+                                    With the "search by tag" feature, content can be organized into specific categories or topics. This makes it easier for users to find the information they need quickly and efficiently, without having to sift through irrelevant content.  By making it easier for users to find the content they're looking for, the "search by tag" feature can improve the overall user experience. This can lead to higher engagement and increased satisfaction with the platform or website. Tagging content with specific keywords or topics can help marketers better understand their audience and tailor their messaging to their interests. 
                                     </font>
                                     <br />
                                     <br />
@@ -203,15 +191,8 @@ export const FrontPage = () => {
 
                                 <Fade right>
                                     <font className="FPFeaturesText">
-                                        Now no need to remember all your
-                                        allergies as we have the data handy for
-                                        you. We maintain a database of your
-                                        allergies which will help you remain
-                                        cautious of the potential dangers.
-                                        Moreover, your allergies are visible to
-                                        the doctor as well, so he can prescribe
-                                        medicines accordingly.
-                                    </font>
+                                        You can book your "appointment with doctor", where patients are able to communicate directly with their doctor, they may feel more engaged in their own healthcare and more invested in the outcome of their treatment. This can lead to better adherence to treatment plans and improved outcomes. Doctor counseling can be done remotely, which can increase access to healthcare for patients who may not be able to travel to a physical appointment. This can be especially important for patients with mobility issues or those who live in rural areas.
+                                        </font>
                                     <br />
                                     <br />
                                     <br />
@@ -229,16 +210,8 @@ export const FrontPage = () => {
 
                                 <Fade right>
                                     <font className="FPFeaturesText">
-                                        We save all of your previous
-                                        prescriptions to our electronic medical
-                                        record system, so now you don't have to
-                                        carry them to the doctor. These are
-                                        always easily accessible to you and your
-                                        doctor which helps in a good diagnosis
-                                        of any problem you may have. It also
-                                        helps to keep track of the required
-                                        medicine dosage.
-                                    </font>
+                                        You can "order a recipe" which you can cook at your home. When cooking at home, you have control over the ingredients and can choose healthier options, such as fresh fruits and vegetables, lean protein, and whole grains. This can help you create healthier meals that are lower in calories, saturated fats, and sodium. Cooking at home can also be a fun and bonding activity for families. It provides an opportunity to work together, try new recipes, and share meals together, which can strengthen relationships and create lasting memories.
+                                        </font>
                                 </Fade>
                             </Col>
                         </Row>
@@ -255,13 +228,8 @@ export const FrontPage = () => {
                                 <br />
                                 <Fade right>
                                     <font className="FPFeaturesText">
-                                        We save all of your doctors under a
-                                        separate section, so you don't have to
-                                        search them in the ocean of doctors.
-                                        With this feature, it is easy to find
-                                        them and get their details to contact
-                                        them whenever required.
-                                    </font>
+                                        "Delivery at your home".  A delivery system can make products or services more accessible to customers who might not otherwise be able to access them due to geographic or mobility limitations. A delivery system can provide convenience for customers by delivering products or services directly to their doorstep, saving them time and effort.
+                                        </font>
                                     <br />
                                     <br />
                                     <br />
@@ -279,10 +247,8 @@ export const FrontPage = () => {
 
                                 <Fade right>
                                     <font className="FPFeaturesText">
-                                        Using this platform, you can easily book
-                                        an appointment with any doctor with just
-                                        a click from the comfort of your home.
-                                    </font>
+                                      You can "rate as you want" on the last orders.  Positive ratings and reviews can be used as a marketing tool to attract new customers and promote the business's products or services. A rating or review system can increase transparency by providing customers with information about a business's products or services, including the quality of the products and the level of customer service.
+                                      </font>
                                     <br />
                                     <br />
                                     <br />
@@ -299,13 +265,8 @@ export const FrontPage = () => {
                                 <br />
                                 <Fade right>
                                     <font className="FPFeaturesText">
-                                        You can search for your complete medical
-                                        history, all prescriptions, vitals,
-                                        allergies, and doctors from our database
-                                        with great ease. Everything is now at
-                                        your fingertips, making your life easier
-                                        and more organized.
-                                    </font>
+                                    With the "Contact Us Anytime" feature, customers can easily report issues or problems they may be experiencing, allowing the business to respond quickly and resolve any issues in a timely manner. Offering this feature can also provide a competitive advantage for businesses by differentiating them from competitors who may not offer such a feature.
+                                      </font>
                                 </Fade>
                             </Col>
                         </Row>
