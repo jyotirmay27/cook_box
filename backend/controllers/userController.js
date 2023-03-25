@@ -268,45 +268,25 @@ const signup =async  (req, res, next) => {
  const getBySearch = async(req,res,next) =>{
     // const userId=req.params.uid;
       // this will bind the user Id from url to a constant
-     var searchid=req.params.sid;
-      const x=searchid.split(',');
-      //console.log(x.size());
-      console.log(x);
-      console.log("jiill");
-      //const allrecipes=[];
-      let allrecipes;
-    try {
-        const results= await Promise.all(x.map( async element => {
-            let newArr = await Upload.find({ing1:element})
-            console.log(newArr.length);
-            return newArr;
-        }));
-        console.log(results[0]);
-        //allrecipes.pushValues(results[0]);
-        console.log("lo");
-        const results2= await Promise.all(x.map( async element => {
-            let newArr = await Upload.find({ing2:element})
-            console.log(newArr.length);
-            return newArr;
-        }));
-        console.log(results2[1]);
-         allrecipes = results[0].concat(results2[1]);
-        //allrecipes.pushValues(results2[0]);
-        console.log("all");
-        console.log(allrecipes);  
-       console.log( typeof(allrecipes));
-    } catch (err) {
-      const error = new HttpError(
-        'Fetching users failed, please try again later.',
-        500
-      );
-      return next(error);
-    }
-    if(allrecipes == undefined) {
-        res.json({recipes:{} });
-      }
-      else
-    res.json({ recipes: allrecipes.map(recipe => recipe.toObject({ getters: true })) });
+      var searchid=req.params.sid;
+      const x=searchid.split(','); 
+       const res1 = await Upload.find({ing1: {$in: x}});
+       const res2 = await Upload.find({ing2: {$in: x}});
+       const res3 = await Upload.find({ing3: {$in: x}});
+       const res4 = await Upload.find({ing4: {$in: x}});
+       let result = []
+       if(res1.length>0)
+         result = result.concat(res1);
+       if(res2.length>0)
+         result = result.concat(res2);
+       if(res3.length>0)
+         result = result.concat(res3);  
+       if(res4.length>0)
+         result = result.concat(res4);
+       console.log(result);
+       //res.status(200).json(result);
+      
+    res.json({ recipes: result.map(recipe => recipe.toObject({ getters: true })) });
   };// getters: true will send response object ID as 'id' instead of '_id' which mongoDB created automatically
 
   // this fetch the medicines for the particular user
